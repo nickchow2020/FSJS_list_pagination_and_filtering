@@ -1,3 +1,6 @@
+a{
+  cursor: pointer;
+}
 body{
   background-color: #e1f1f6;
   font-family: Helvetica, sans-serif;
@@ -43,7 +46,9 @@ body{
       color: #fff
     }
 
-.student-list{}
+  .student-list > li{
+    display: none;
+  }
 
   .student-item{
     margin: 0 0 20px 0;
