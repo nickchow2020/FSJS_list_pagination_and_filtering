@@ -11,14 +11,16 @@ FSJS project 2 - List Filter and Pagination
 ***/
         // variable that target on students Ul tag
 const studentsUl = document.querySelector(".student-list");
-        // variable that store all list element under the students Ul tags
+        // variable that store all list element under the students Ul tags;
 const studentsUlList = studentsUl.children;
         // initial the current page to one;
 const currentPage = 1;
         // initial the rows students per page;
 const rowsPerPage = 10;
         // target on the parent of pagination section;
-const page = document.querySelector(".page")
+const pageWrapper = document.querySelector(".page")
+        // variable target on searchbox parent;
+const pageHeader = document.querySelector(".page-header");
 
 
 
@@ -26,14 +28,14 @@ const page = document.querySelector(".page")
 /*** 
  *function that is going to who the only 10 rows perpages and hide the rest
     **page argument is represent the current page
+    **student argument target on student ranges;
 ***/
-
-function showPage(page){
+function showPage(page,students){
         // making sure to empty the previous contents used for loops
-        const listLength = studentsUlList.length;//set highest index in for loops
+        const listLength = students.length;//set highest index in for loops
 
         for(let i = 0; i < listLength; i ++){
-                studentsUlList[i].style.display = "";
+                students[i].style.display = "";
         }
 
         page -- // set the page to minus one,making the start index position is begin at 0;
@@ -44,13 +46,11 @@ function showPage(page){
         set it's display property to block;**/
         for(let i = startIndex; i < endIndex; i ++){
                 /**if statement filters studentsUlList[i] equivalent to undefined*/
-                if(studentsUlList[i]){ 
-                        studentsUlList[i].style.display = "block";
+                if(students[i]){ 
+                        students[i].style.display = "block";
                 }
         }
 }
-
-
 
 
 
@@ -75,11 +75,9 @@ function createPaginationBtn(btnNumber){
                 const buttonContents = e.target.textContent;// get the showpage() argument value
                 const activeBtn = document.querySelector(".active") // select the anthor tag with class of active
                 activeBtn.classList.remove("active"); // remove class active when click
-                showPage(buttonContents);// call the showPage() and pass it's argument value when click
+                showPage(buttonContents,studentsUlList);// call the showPage() and pass it's argument value when click
                 a.classList.add("active");// add  class active when click a tags
         })
-
-
 
 
         return li; // return the value of the function li tag;
@@ -92,8 +90,9 @@ function createPaginationBtn(btnNumber){
  *function that is going to generate the pagination buttons according to the length of the students.
  and called a function that is handle the funtionally of each button.
  parent is argument wrapper of pagination section.
+ lengths is argument represent total amount of student
 ***/
-function appendPaginateBtn(parent){
+function appendPaginateBtn(parent,lengths){
         /*** 
          * first step going to create a html of pagination
          * ***/
@@ -107,7 +106,7 @@ function appendPaginateBtn(parent){
          * Use Math.ceil to level up the numbers of buttons
          * use students total divide by the rowsPerpages
          */
-        const totalStudents =  studentsUlList.length;  //totals student value
+        const totalStudents =  lengths.length;  //totals student value
         const totalBtn = Math.ceil(totalStudents / rowsPerPage) // total buttons
 
         /**
@@ -125,6 +124,5 @@ function appendPaginateBtn(parent){
 
 
 
-showPage(1);
-appendPaginateBtn(page);
-    
+showPage(currentPage,studentsUlList);//called showPage() with all Student
+appendPaginateBtn(pageWrapper,studentsUlList);//called appendPaginateBtn() with all Student
