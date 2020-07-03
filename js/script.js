@@ -182,40 +182,40 @@ function searchBar(){
         input.addEventListener("keyup",()=>{
                 studentsUl.innerHTML = "";   //reset all date to empty string
                 const studentDate = JSON.parse(localStorage.getItem("student")); //retrieve date from localStorge
-                let searchValue = input.value;//get search input value
+                let searchValue = input.value.toLowerCase();//get search input value
                 let lengths = studentDate.names.length;//store the length of match student search
                 let totalLengths = [];//stored the length of match student search's
 
                 /**For loop to loop through all date that retrieve from the localStorege comparison 
                  * to the input search Value */
-                for(let i = 0; i < lengths; i ++){
-                        /**
-                         * if conditional statement to check the search input it match
-                         * if if match grasp it's index value and get it's matching value
-                         */
-                        if(studentDate.names[i].indexOf(searchValue) > -1){
-                                const studentDate = JSON.parse(localStorage.getItem("student"))
-                                let imgSrc = studentDate.avatars[i];
-                                let studentName = studentDate.names[i];
-                                let studentEmail = studentDate.emails[i];
-                                let joinDate = studentDate.dates[i];
-
-                                totalLengths.push(joinDate);//push data to define the length of match students
-
+                        for(let i = 0; i < lengths; i ++){
                                 /**
-                                 * call studentLists function to display student date
-                                 * that match from the date match index.
+                                 * if conditional statement to check the search input it match
+                                 * if if match grasp it's index value and get it's matching value
                                  */
-                                const studentHTML = studentLists(imgSrc,studentName,studentEmail,joinDate);
-                                studentsUl.innerHTML += `${studentHTML}`;//add it's date to the "student-list" ul
-                                showPage(currentPage,studentsUlList);//called showPage() with all Student                    
-                        }else{
-                                /**If no result found print No Result message */
-                                studentsUl.innerHTML = `<h3>No Results</h3>`;       
+                                if(studentDate.names[i].indexOf(searchValue) > -1){
+                                        const studentDate = JSON.parse(localStorage.getItem("student"))
+                                        let imgSrc = studentDate.avatars[i];
+                                        let studentName = studentDate.names[i];
+                                        let studentEmail = studentDate.emails[i];
+                                        let joinDate = studentDate.dates[i];
+
+                                        totalLengths.push(joinDate);//push data to define the length of match students
+
+                                        /**
+                                         * call studentLists function to display student date
+                                         * that match from the date match index.
+                                         */
+                                        const studentHTML = studentLists(imgSrc,studentName,studentEmail,joinDate);
+                                        studentsUl.innerHTML += `${studentHTML}`;//add it's date to the "student-list" ul
+                                        showPage(currentPage,studentsUlList);//called showPage() with all Student                    
+                                }
                         }
+                        uls.innerHTML = "";//clear up the previous pagination buttons
+                        appendPaginateBtn(totalLengths);//add pagination buttons according with the match students.
+                if(totalLengths.length === 0){
+                        studentsUl.innerHTML = `<h3>No Results</h3>`;
                 }
-                uls.innerHTML = "";//clear up the previous pagination buttons
-                appendPaginateBtn(totalLengths);//add pagination buttons according with the match students.
         })
 }
 
